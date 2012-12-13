@@ -7,7 +7,7 @@
 <body>
 <h1>Listing Feed</h1>
 <c:forEach items="${feedItems}" var="v_feedItem">
-	<a href="edit?id=${v_feedItem.id}">${v_feedItem.id} - ${v_feedItem.date},  ${v_feedItem.title} - ${v_feedItem.description} - ${v_feedItem.link}</a>
+	<a href="edit?id=${v_feedItem.id}">${v_feedItem.id} - ${v_feedItem.category},  ${v_feedItem.title} - ${v_feedItem.description} - ${v_feedItem.link}</a>
 	<br />
 </c:forEach>
 <a href="editFeedItem"> Add feedItem</a>
