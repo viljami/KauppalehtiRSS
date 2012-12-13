@@ -4,8 +4,7 @@ import java.util.List;
 
 import fi.vp.KauppalehtiRSS.dao.FeedItemDao;
 import fi.vp.KauppalehtiRSS.model.FeedItem;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,16 +16,14 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/feedItem/")
 public class FeedItemController {
-	
-	private static final Logger logger = LoggerFactory.getLogger(FeedItemController.class);
 
 	@Autowired
 	private FeedItemDao feedItemDao;
 	
-	@RequestMapping(method=RequestMethod.GET,value="edit")
+	@RequestMapping(method=RequestMethod.GET,value="editFeedItem")
 	public ModelAndView editFeedItem(@RequestParam(value="id",required=false) Long id) {		
 		ModelAndView mav = new ModelAndView();		
- 		mav.setViewName("edit");
+ 		mav.setViewName("editFeedItem");
  		FeedItem feedItem = null;
  		if (id == null) {
  			feedItem = new FeedItem();
@@ -39,14 +36,14 @@ public class FeedItemController {
 		
 	}
 	
-	@RequestMapping(method=RequestMethod.POST,value="edit") 
+	@RequestMapping(method=RequestMethod.POST,value="editFeedItem") 
 	public String saveFeedItem(@ModelAttribute FeedItem feedItem) {
 		feedItemDao.save(feedItem);
-		return "redirect:list";
+		return "redirect:feed";
 		
 	}
 	
-	@RequestMapping(method=RequestMethod.GET,value="list")
+	@RequestMapping(method=RequestMethod.GET,value="feed")
 	public ModelAndView listFeedItems() {
 		ModelAndView mav = new ModelAndView();
 		List<FeedItem> feedItems = feedItemDao.getFeedItems();

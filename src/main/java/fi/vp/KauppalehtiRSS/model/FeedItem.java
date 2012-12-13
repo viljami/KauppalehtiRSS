@@ -1,7 +1,6 @@
 package fi.vp.KauppalehtiRSS.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,22 +18,70 @@ public class FeedItem implements Serializable {
 	private Long id;
 
 	@Column
-	private String header;
-
-	@Column
-	private String topic;
-
-	@Column
-	private Date date;
-
+	private String category;
 	
+	@Column
+	private String title;
+
+	@Column
+	private String description;
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	@Column
+	private String link;
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	@Column
+	private String date;
+
 	public FeedItem() {
 	}
 
-	public FeedItem( String header, String topic, Date date) {
+	public FeedItem(String category, String title, String description, String date, String link) {
 		super();
-		this.header = header;
-		this.topic = topic;
+		this.category = category;
+		this.title = title;
+		this.description = description;
+		this.date = date;
+		this.link = link;
 	}
 
 	public Long getId() {
@@ -45,33 +92,10 @@ public class FeedItem implements Serializable {
 		this.id = id;
 	}
 
-	public String getHeader() {
-		return header;
-	}
-
-	public void setHeader(String header) {
-		this.header = header;
-	}
-
-	public String getTopic() {
-		return topic;
-	}
-
-	public void setTopic(String topic) {
-		this.topic = topic;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-	
 	@Override
 	public String toString() {
-		return super.toString() + " name = " + header + " " + topic
+
+		return super.toString() + " name = " + title + " " + date
 				+ " id = " + id;
 	}
 
@@ -80,20 +104,38 @@ public class FeedItem implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((header == null) ? 0 : header.hashCode());
+				+ ((title == null) ? 0 : title.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
-				+ ((topic == null) ? 0 : topic.hashCode());
+				+ ((date == null) ? 0 : date.hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		try {
-			return this.id == ((FeedItem)obj).id;
-		} catch ( Exception e ) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		}
+		if (getClass() != obj.getClass())
+			return false;
+		FeedItem other = (FeedItem) obj;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (date == null) {
+			if (other.date != null)
+				return false;
+		} else if (!date.equals(other.date))
+			return false;
+		return true;
 	}
 
 }

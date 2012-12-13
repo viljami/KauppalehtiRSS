@@ -21,7 +21,7 @@ public class FeedItemDao {
 	
 	@SuppressWarnings("unchecked")
 	public List<FeedItem> getFeedItems() {
-		return entityManager.createQuery("select p from FeedItem p").getResultList();
+		return entityManager.createQuery("select f from FeedItem f").getResultList();
 	}
 	
 	@Transactional

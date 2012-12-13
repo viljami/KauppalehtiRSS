@@ -23,10 +23,10 @@ public class FeedController {
 	@Autowired
 	private FeedItemDao feedItemDao;
 	
-	@RequestMapping(method=RequestMethod.GET,value="edit")
+	@RequestMapping(method=RequestMethod.GET,value="edit-list-item")
 	public ModelAndView editFeedItem(@RequestParam(value="id",required=false) Long id) {		
 		ModelAndView mav = new ModelAndView();		
- 		mav.setViewName("edit");
+ 		mav.setViewName("edit-list-item");
  		FeedItem feedItem = null;
  		if (id == null) {
  			feedItem = new FeedItem();
@@ -39,10 +39,10 @@ public class FeedController {
 		
 	}
 	
-	@RequestMapping(method=RequestMethod.POST,value="edit") 
+	@RequestMapping(method=RequestMethod.POST,value="edit-list-item") 
 	public String saveFeedItem(@ModelAttribute FeedItem feedItem) {
 		feedItemDao.save(feedItem);
-		return "redirect:list";
+		return "redirect:feed";
 		
 	}
 	

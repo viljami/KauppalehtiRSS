@@ -7,19 +7,20 @@
 </head>
 <body>
 <h1>
-	Editing feedItem ${person.id}  
+	Editing feedItem ${listItem.id}  
 </h1>
-<form:form commandName="person" style="padding:8px">
-    ID - ${person.id}<br/>
+<form:form commandName="listItem" style="padding:8px">
+    ID - ${listItem.id}<br/>
     <p>
-        Header<br/>
-        <form:input path="firstName"/>
+        Title<br/>
+        <form:input path="title"/>
     </p>
     <p>
-        Topic<br/>
-        <form:input path="lastName"/>
+        Date<br/>
+        <form:input path="date"/>
     </p>
     <input type="submit" value="Save"/>
 </form:form>
+
 </body>
 </html>
