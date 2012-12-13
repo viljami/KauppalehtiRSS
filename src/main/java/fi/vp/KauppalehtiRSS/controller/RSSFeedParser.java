@@ -59,17 +59,10 @@ public class RSSFeedParser {
       String description = "";
       String link = "";
       String date = "";
+ 
       while (eventReader.hasNext()) {
           XMLEvent event = eventReader.nextEvent();
-    	  //XMLEvent event = eventReader.nextTag();
-    	  
-          String chars = "";
-          /*
-          if( event.isCharacters() ) {
-        	  chars = event.asCharacters().toString();
-        	  here = true;
-          }
-          */
+ 
           if(event.isStartElement()) {
         	  if( startTag && event.asStartElement().getName().getLocalPart() == "channel" ) {
         		  startTag = false;
@@ -118,72 +111,6 @@ public class RSSFeedParser {
             	  feedItems.add( item );
         	  }
           }
-        	  
-          /*
-          if(event.isStartDocument()) {
-        	  chars = event.toString();
-        	  here = true;
-          }*/
-    	  
-    	  
-    	  
-        /*
-    	  if (event.isStartElement()) {
-          if (event.asStartElement().getName().getLocalPart() == (ITEM)) {
-            if (isFeedHeader) {
-              isFeedHeader = false;
-              group = title;
-              */
-              /*
-              feed = new Feed(title, link, description, language,
-                  copyright, pubdate);
-                */
-    	  /*
-            }
-            event = eventReader.nextEvent();
-            continue;
-          }
-
-          if (event.asStartElement().getName().getLocalPart() == (TITLE)) {
-            event = eventReader.nextEvent();
-            title = event.asCharacters().getData();
-            continue;
-          }
-          if (event.asStartElement().getName().getLocalPart() == (DESCRIPTION)) {
-            event = eventReader.nextEvent();
-            description = event.asCharacters().getData();
-            continue;
-          }
-
-          if (event.asStartElement().getName().getLocalPart() == (LINK)) {
-        	  event = eventReader.nextEvent();
-        	  if(event.isCharacters()) {
-        		  link = event.asCharacters().getData();
-        	  } else {
-        		  link = "";
-        	  }
-            
-            continue;
-          }
-          if (event.asStartElement().getName().getLocalPart() == (PUB_DATE)) {
-            event = eventReader.nextEvent();
-            pubdate = event.asCharacters().getData();
-            continue;
-          }
-        } else if (event.isEndElement()) {
-          if (event.asEndElement().getName().getLocalPart() == (ITEM)) {
-            FeedItem feedItem = new FeedItem( group, title, link, description, pubdate);
-            feedItem.setDescription(description);
-            feedItem.setLink(link);
-            feedItem.setTitle(title);
-            if(feedItem != null) {
-            	feedItemDao.save(feedItem);
-            }
-            event = eventReader.nextEvent();
-            continue;
-          }
-        }
-        */
       }
     } catch (XMLStreamException e) {
       //throw new RuntimeException(e);

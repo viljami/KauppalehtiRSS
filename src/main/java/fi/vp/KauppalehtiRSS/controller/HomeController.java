@@ -2,23 +2,11 @@ package fi.vp.KauppalehtiRSS.controller;
 
 import java.io.IOException;
 import java.util.List;
-/*
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import javax.xml.stream.XMLInputFactory;
-*/
-//import java.util.Date;
-//import java.util.List;
-
-
+import java.util.Timer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ConcurrentTaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,6 +41,9 @@ public class HomeController {
 
 	private static Boolean firstLoad = true;
 	
+	private static ConcurrentTaskExecutor taskExecutor = null;
+	private LoadContent loadContent = null;
+	
 	private class LoadContent implements Runnable {
 
 		public void run() {
@@ -76,40 +67,21 @@ public class HomeController {
 		}
 		
 	}
+	
 	/**
 	 * Selects the home page and populates the model with a message
 	 * @throws IOException 
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home(Model model) throws IOException {
-		/*
-		logger.info("Welcome home, darling!");
-		model.addAttribute("controllerMessage",
-				"This is the message from the controller! Jiiihhaaaa! ");
-		
-		return "home";
-		
-		String[] rss = new Array();
-		try {
-	        URL oracle = new URL("http://rss.kauppalehti.fi/rss/etusivun_uutiset.jsp");
-	        URLConnection yc = oracle.openConnection();
-	        BufferedReader in = new BufferedReader(new InputStreamReader(
-	        yc.getInputStream()));
-	        String inputLine;
-	        while ((inputLine = in.readLine()) != null) { 
-	            rss += inputLine + "";
-	        }
-	        in.close();
-		} catch( Exception e ) {
-			feedItemDao.save(new FeedItem( "Error", "Feed fetch fail. ", "#nolink", "Sorry for that.", new Date()));
-		}
-		
-		*/
 		if( firstLoad ) {
 			firstLoad = false;
-			new ConcurrentTaskExecutor().execute( new LoadContent() );
+			taskExecutor = new ConcurrentTaskExecutor();
+			loadContent = new LoadContent();
+			Timer timer = new Timer();
+			//timer.scheduleAtFixedRate( loadContent, 300000, 10000);
+			taskExecutor.execute( loadContent );
 		}
-		//feedItemDao.save(new FeedItem("moi","hei","iloo","kiikku", "12/12/!2"));
 		
 		ModelAndView mav = new ModelAndView();
 		List<FeedItem> feedItems = feedItemDao.getFeedItems();
@@ -117,6 +89,5 @@ public class HomeController {
 		mav.setViewName("feed");
 		return mav;
 	}
-
 }
 
