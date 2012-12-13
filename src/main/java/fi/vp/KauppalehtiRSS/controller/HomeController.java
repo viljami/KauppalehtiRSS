@@ -65,7 +65,6 @@ public class HomeController {
 				feedItemDao.save(feedItems.get( i ));
 			}
 		}
-		
 	}
 	
 	/**
@@ -77,10 +76,10 @@ public class HomeController {
 		if( firstLoad ) {
 			firstLoad = false;
 			taskExecutor = new ConcurrentTaskExecutor();
-			loadContent = new LoadContent();
-			Timer timer = new Timer();
+			//loadContent = new LoadContent();
+			//Timer timer = new Timer();
 			//timer.scheduleAtFixedRate( loadContent, 300000, 10000);
-			taskExecutor.execute( loadContent );
+			taskExecutor.execute( new LoadContent() );
 		}
 		
 		ModelAndView mav = new ModelAndView();

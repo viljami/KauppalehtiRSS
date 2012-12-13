@@ -2,14 +2,31 @@
 <%@ page session="false"%>
 <html>
 <head>
-<title>Kauppalehti RSS</title>
+	<title>Kauppalehti RSS</title>
+	<link href="../resources/css/bootstrap.css" rel="stylesheet" type="text/css" />
+	<link href="../resources/css/styles.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<h1>Listing Feed</h1>
+<div class="hero-unit">
+	<h1>Kauppalehti RSS</h1>
+	<p>Four RSS feeds listed.</p>
+</div>
+
+<div id="content">
 <c:forEach items="${feedItems}" var="v_feedItem">
-	<a href="edit?id=${v_feedItem.id}">${v_feedItem.id} - ${v_feedItem.category},  ${v_feedItem.title} - ${v_feedItem.description} - ${v_feedItem.link}</a>
-	<br />
+
+	<div class="media">
+	  	<a class="pull-left" href="${v_feedItem.link}" >
+	    	<img class="media-object" data-src="holder.js/64x64">
+	  	</a>
+	  	<div class="media-body">
+			<h4 class="media-heading"><a href="${v_feedItem.link}" >${v_feedItem.title}</a></h4>
+			<p>${v_feedItem.category}</p>
+			<p>${v_feedItem.description}</p>
+		</div>
+	</div>
 </c:forEach>
-<a href="editFeedItem"> Add feedItem</a>
+</div>
+
 </body>
 </html>
