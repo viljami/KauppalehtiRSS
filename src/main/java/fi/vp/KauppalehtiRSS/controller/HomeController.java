@@ -2,10 +2,7 @@ package fi.vp.KauppalehtiRSS.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Timer;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ConcurrentTaskExecutor;
 import org.springframework.stereotype.Controller;
@@ -17,21 +14,13 @@ import org.springframework.web.servlet.ModelAndView;
 import fi.vp.KauppalehtiRSS.dao.FeedItemDao;
 import fi.vp.KauppalehtiRSS.model.FeedItem;
 
-/**
- * Sample controller for going to the home page with a message
- * 
- * Archetype used ?
- * spring-mvc-jpa-archetype
- * 
- */
 @Controller
 public class HomeController {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(HomeController.class);
+	//private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 	private static String FEEDURL1 = "http://rss.kauppalehti.fi/rss/etusivun_uutiset.jsp";
-	private static String FEEDURL2 = "http://rss.kauppalehti.fi/rss/etusivun_mobiili.jsp";
+	private static String FEEDURL2 = "http://rss.kauppalehti.fi/rss/auto.jsp";
 	private static String FEEDURL3 = "http://rss.kauppalehti.fi/rss/omaraha.jsp";
 	private static String FEEDURL4 = "http://rss.kauppalehti.fi/rss/yritysuutiset.jsp";
 

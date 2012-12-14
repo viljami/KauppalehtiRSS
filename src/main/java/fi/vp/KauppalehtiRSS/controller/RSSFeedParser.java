@@ -19,16 +19,12 @@ import fi.vp.KauppalehtiRSS.model.FeedItem;
  * http://www.vogella.com/articles/RSSFeed/article.html
  */
 public class RSSFeedParser {
-  static final String TITLE = "title";
-  static final String DESCRIPTION = "description";
-  static final String CHANNEL = "channel";
-  static final String LANGUAGE = "language";
-  static final String COPYRIGHT = "copyright";
-  static final String LINK = "link";
-  static final String AUTHOR = "author";
-  static final String ITEM = "item";
-  static final String PUB_DATE = "pubDate";
-  static final String GUID = "guid";
+	static final String ITEM = "item";
+	static final String TITLE = "title";
+	static final String DESCRIPTION = "description";
+	static final String LINK = "link";
+	static final String URL = "url";
+	static final String DATE = "date";
 	
   private URL url;
   
@@ -38,9 +34,9 @@ public class RSSFeedParser {
   public List<FeedItem> readFeed( String feedUrl ) {
 	
 	try {
-		this.url = new URL(feedUrl);
-	} catch (MalformedURLException e) {
-	    throw new RuntimeException(e);
+		this.url = new URL( feedUrl );
+	} catch ( MalformedURLException e ) {
+	    throw new RuntimeException( e );
 	}
 	
 	List<FeedItem> feedItems = new ArrayList<FeedItem>();
@@ -58,23 +54,23 @@ public class RSSFeedParser {
       String date = "";
       String imageURL = "";
       
-      while (eventReader.hasNext()) {
+      while ( eventReader.hasNext() ) {
     	  XMLEvent event = eventReader.nextEvent();
     	  
-          if(event.isStartElement()) {
-        	  if( !inItem && event.asStartElement().getName().getLocalPart() != "item" ) {
-        		  if( event.asStartElement().getName().getLocalPart() == "title" ) {
+          if( event.isStartElement() ) {
+        	  if( !inItem && event.asStartElement().getName().getLocalPart() != ITEM ) {
+        		  if( event.asStartElement().getName().getLocalPart() == TITLE ) {
         			  event = eventReader.nextEvent();
         			  if( event.isCharacters() ) {
 	        			  category = event.asCharacters().getData();
 	        		  }
-        		  } else if( event.asStartElement().getName().getLocalPart() == "url" ) {
+        		  } else if( event.asStartElement().getName().getLocalPart() == URL ) {
         			  event = eventReader.nextEvent();
 					  if(event.isCharacters()) {
 						  imageURL = event.asCharacters().getData();
 					  }
         		  }
-        	  } else if(event.asStartElement().getName().getLocalPart() == "item" ) {
+        	  } else if(event.asStartElement().getName().getLocalPart() == ITEM ) {
             	  inItem = true;
         	  }
         	  
@@ -82,19 +78,19 @@ public class RSSFeedParser {
         		  String element = event.asStartElement().getName().getLocalPart();
         		  event = eventReader.nextEvent();
         		  if( event.isCharacters() ) {
-        			  if (element == "title") {
+        			  if ( element == TITLE ) {
             			  title = event.asCharacters().toString();
-            		  } else if (element == "description") {
+            		  } else if ( element == DESCRIPTION ) {
             			  description = event.asCharacters().toString();
-            		  } else if (element == "link") {
+            		  } else if ( element == LINK ) {
             			  link = event.asCharacters().toString();
-            		  } else if (element == "date") {
+            		  } else if ( element == DATE ) {
             			  date = event.asCharacters().toString();
             		  }
         		  }
         	  }
           } else if ( event.isEndElement() ) {
-           	  if(event.asEndElement().getName().getLocalPart() == "item") {
+           	  if ( event.asEndElement().getName().getLocalPart() == ITEM ) {
         		  inItem = false;
         		  FeedItem item = new FeedItem ();
         		  item.setCategory( category );
@@ -107,9 +103,8 @@ public class RSSFeedParser {
         	  }
           }    	  
       } 
-    } catch (XMLStreamException e) {
-      //throw new RuntimeException(e);
-    	return feedItems;
+    } catch ( XMLStreamException e ) {
+        throw new RuntimeException( e );
     }
     
     return feedItems;
@@ -118,34 +113,8 @@ public class RSSFeedParser {
   private InputStream read() {
     try {
       return url.openStream();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+    } catch ( IOException e ) {
+      throw new RuntimeException( e );
     }
   }
 } 
-
-/*
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<rss xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">   
-<channel>
-	<title>Etusivun uutiset | Kauppalehti.fi</title>
-	<image>
-		<url>http://kuvat.kauppalehti.fi/5/i/img/logo_kl_igoogle.gif</url>
-		<title>Etusivun uutiset | Kauppalehti.fi</title>,         
-		<link>http://www.kauppalehti.fi/</link>,      
-	</image>
-	<description>Kauppalehti.fi:n etusivulta n?et nopeasti yhdell? silm?yksell? p?iv?n t?rkeimm?t talousuutiset ja -tapahtumat.</description>
-	<link>http://www.kauppalehti.fi</link>,      <language>fi</language>
-	<atom:link href="http://rss.kauppalehti.fi/rss/etusivun_uutiset.jsp" rel="self" type="application/rss+xml"/>
-	<item>         
-		<title>UM: Kehitysavusta vahinkoja 415 000 euroa</title>
-		<link>http://www.kauppalehti.fi/etusivu/um+kehitysavusta+vahinkoja+415+000+euroa/201212321013&amp;ext=rss</link>
-		<guid>http://www.kauppalehti.fi/etusivu/um+kehitysavusta+vahinkoja+415+000+euroa/201212321013&amp;ext=rss</guid>
-		<description>Helsingin Sanomat uutisoi eilen, ett? v??rink?yt?ksi? tulee esiin ministeri?n omassa valvonnassa vuosittain noin 10 miljoonan euron verran.</description>
-		<pubDate>Wed, 12 Dec 2012 17:20:47 +0200</pubDate>
-		<dc:date>2012-12-12T17:20:47+02:00</dc:date>
-	</item>
-	<item>
-		<title>Kilometrikorvausten leikkaus raivostuttaa</title>
-		<link>http://www.kauppalehti.fi/auto/uutiset/kilometrikorvausten+leikkaus+raivostuttaa/201212321009&amp;ext=rss</link>,         <guid>http://www.kauppalehti.fi/auto/uutiset/kilometrikorvausten+leikkaus+raivostuttaa/201212321009&amp;ext=rss</guid>,         <description>Autoilijoita raivostuttaa eduskunnan p??t?s pienent?? ty?ajoista maksettavia verottomia kilometrikorvauksia.</description>,         <pubDate>Wed, 12 Dec 2012 17:20:45 +0200</pubDate>,         <dc:date>2012-12-12T17:20:45+02:00</dc:date>,      </item>,      <item>,         <title>Lumiat vied??n Ruotsissa k?sist?</title>,         <link>http://www.kauppalehti.fi/etusivu/lumiat+vieda
-*/

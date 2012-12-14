@@ -5,4 +5,10 @@ KauppalehtiRSS
 
 Technology: Java, Spring MVC
 
-Started from: spring-mvc-jpa-archetype
+Archetype used: spring-mvc-jpa-archetype
+
+
+TODO:
+1. No duplicates ( from different feeds )
+2. News checked regularly by timer.
+3. Content Loader also in client side. ( AJAX ) 
