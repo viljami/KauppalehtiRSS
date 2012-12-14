@@ -26,16 +26,36 @@ public class FeedItem implements Serializable {
 	@Column
 	private String description;
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
+	@Column 
+	private String imageURL;
+	
 	@Column
 	private String link;
+
+
+	@Column
+	private String date;
+
+	public FeedItem() {
+	}
+
+	public FeedItem(String category, String title, String description, String date, String imageURL, String link) {
+		super();
+		this.category = category;
+		this.title = title;
+		this.description = description;
+		this.date = date;
+		this.link = link;
+		this.imageURL = imageURL;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getCategory() {
 		return category;
@@ -52,6 +72,7 @@ public class FeedItem implements Serializable {
 	public void setLink(String link) {
 		this.link = link;
 	}
+	
 
 	public String getTitle() {
 		return title;
@@ -69,27 +90,20 @@ public class FeedItem implements Serializable {
 		this.date = date;
 	}
 
-	@Column
-	private String date;
-
-	public FeedItem() {
+	public String getImageURL() {
+		return imageURL;
 	}
 
-	public FeedItem(String category, String title, String description, String date, String link) {
-		super();
-		this.category = category;
-		this.title = title;
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
 		this.description = description;
-		this.date = date;
-		this.link = link;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	@Override

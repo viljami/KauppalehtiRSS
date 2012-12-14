@@ -22,8 +22,7 @@ import fi.vp.KauppalehtiRSS.model.FeedItem;
  * 
  * Archetype used ?
  * spring-mvc-jpa-archetype
- * OR
- * spring-mvc-webapp
+ * 
  */
 @Controller
 public class HomeController {
@@ -31,21 +30,26 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory
 			.getLogger(HomeController.class);
 
-	@Autowired
-	private FeedItemDao feedItemDao;
-	
 	private static String FEEDURL1 = "http://rss.kauppalehti.fi/rss/etusivun_uutiset.jsp";
 	private static String FEEDURL2 = "http://rss.kauppalehti.fi/rss/etusivun_mobiili.jsp";
 	private static String FEEDURL3 = "http://rss.kauppalehti.fi/rss/omaraha.jsp";
 	private static String FEEDURL4 = "http://rss.kauppalehti.fi/rss/yritysuutiset.jsp";
 
 	private static Boolean firstLoad = true;
-	
 	private static ConcurrentTaskExecutor taskExecutor = null;
-	private LoadContent loadContent = null;
-	
-	private class LoadContent implements Runnable {
 
+	@Autowired
+	private FeedItemDao feedItemDao;
+	
+	private ContentLoader contentLoader = null;
+	
+	/**
+	 * Loads the RSS feeds and updates the results into database.
+	 * 
+	 * @author viljami
+	 *
+	 */
+	private class ContentLoader implements Runnable {
 		public void run() {
 			RSSFeedParser feedParser = new RSSFeedParser();
 			List<FeedItem> feedItems = feedParser.readFeed( FEEDURL1 );
@@ -76,10 +80,10 @@ public class HomeController {
 		if( firstLoad ) {
 			firstLoad = false;
 			taskExecutor = new ConcurrentTaskExecutor();
-			//loadContent = new LoadContent();
+			contentLoader = new ContentLoader();
 			//Timer timer = new Timer();
 			//timer.scheduleAtFixedRate( loadContent, 300000, 10000);
-			taskExecutor.execute( new LoadContent() );
+			taskExecutor.execute( contentLoader );
 		}
 		
 		ModelAndView mav = new ModelAndView();
