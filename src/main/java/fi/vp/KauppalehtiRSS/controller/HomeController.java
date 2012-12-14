@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+
 import fi.vp.KauppalehtiRSS.dao.FeedItemDao;
 import fi.vp.KauppalehtiRSS.model.FeedItem;
 
@@ -33,7 +35,7 @@ public class HomeController {
 	private ContentLoader contentLoader = null;
 	
 	/**
-	 * Loads the RSS feeds and updates the results into database.
+	 * Loads the RSS feeds and updates the results into database feed by feed.
 	 * 
 	 * @author viljami
 	 *
@@ -60,13 +62,9 @@ public class HomeController {
 		}
 	}
 	
-	/**
-	 * Selects the home page and populates the model with a message
-	 * @throws IOException 
-	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping( value = "/", method = RequestMethod.GET )
 	public ModelAndView home(Model model) throws IOException {
-		if( firstLoad ) {
+		if ( firstLoad ) {
 			firstLoad = false;
 			taskExecutor = new ConcurrentTaskExecutor();
 			contentLoader = new ContentLoader();
@@ -77,8 +75,22 @@ public class HomeController {
 		
 		ModelAndView mav = new ModelAndView();
 		List<FeedItem> feedItems = feedItemDao.getFeedItems();
-		mav.addObject("feedItems", feedItems);
-		mav.setViewName("feed");
+		mav.addObject( "feedItems", feedItems );
+		mav.setViewName( "feed" );
+		return mav;
+	}
+	
+	@RequestMapping( value = "/feedItems", method = RequestMethod.GET )
+	public ModelAndView getFeedItems ( Model model ) throws IOException {
+		ModelAndView mav = new ModelAndView();
+		List<FeedItem> feedItems = feedItemDao.getFeedItems();
+		
+		Gson gson = new Gson();
+		String feedItemsJSON = gson.toJson( feedItems );
+		
+		mav.addObject( "json", feedItemsJSON );
+		
+		mav.setViewName( "json" );
 		return mav;
 	}
 }
