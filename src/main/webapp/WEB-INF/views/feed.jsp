@@ -53,7 +53,6 @@
 </footer>
 
 <script src="../resources/js/jquery.min.js" type="text/javascript"></script>
-<script src="../resources/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="../resources/js/main.js" type="text/javascript"></script>
 	
 </body>

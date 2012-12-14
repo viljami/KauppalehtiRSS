@@ -21,10 +21,10 @@ public class HomeController {
 
 	//private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-	private static String FEEDURL1 = "http://rss.kauppalehti.fi/rss/etusivun_uutiset.jsp";
+	private static String FEEDURL1 = "http://rss.kauppalehti.fi/rss/yritysuutiset.jsp";
 	private static String FEEDURL2 = "http://rss.kauppalehti.fi/rss/auto.jsp";
 	private static String FEEDURL3 = "http://rss.kauppalehti.fi/rss/omaraha.jsp";
-	private static String FEEDURL4 = "http://rss.kauppalehti.fi/rss/yritysuutiset.jsp";
+	private static String FEEDURL4 = "http://rss.kauppalehti.fi/rss/etusivun_uutiset.jsp";
 
 	private static Boolean firstLoad = true;
 	private static ConcurrentTaskExecutor taskExecutor = null;

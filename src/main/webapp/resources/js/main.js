@@ -19,19 +19,18 @@ var feedItemsLoader = function ( e ) {
 		}
 		
 		var feedItems = [];
-		
-		$.each(json, function(index, val) {
+		$.each(json, function(index, feedItem) {
 			feedItems.push('<div class="media"><div class="media-body">' + 
 				'<h4 class="media-heading"><a class="feedItemTitle" href="' + 
-				val.link + '" >' + 
-				val.title + '</a></h4><blockquote><p>' +
-				val.description + '<small>' +
-				val.category + '-' + 
-				val.date + '</small></p></blockquote></div></div>'
+				feedItem.link + '" >' + 
+				feedItem.title + '</a></h4><blockquote><p>' +
+				feedItem.description + '<small>' +
+				feedItem.category + '-' + 
+				feedItem.date + '</small></p></blockquote></div></div>'
 			);
 		});
 
-		$('#content').append( feedItems.join('') );
+		$('#content').empty().append( feedItems.join('') );
 		
 		if( json.length < 100 ) {
 			$('#content').append( loadingElement );
